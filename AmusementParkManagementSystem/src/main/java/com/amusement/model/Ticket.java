@@ -1,5 +1,7 @@
 package com.amusement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,4 +31,8 @@ public class Ticket {
 	@ManyToOne
 	@JoinColumn(name = "activityId")
 	private Activity activity;
+	@JsonIgnore
+	private boolean isDeleted = false;
+	
+	
 }
