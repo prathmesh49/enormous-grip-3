@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -44,4 +47,8 @@ public class Ticket {
 	
 	
 	private Integer personCount;
+
+	@JsonIgnore
+	private boolean isDeleted = false;
+
 }
