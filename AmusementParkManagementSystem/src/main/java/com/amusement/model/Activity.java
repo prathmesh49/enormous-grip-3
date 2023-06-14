@@ -29,10 +29,13 @@ public class Activity {
 	
 	private Double price;
 	
-	private Integer capacity;
+	private Integer personCapacity;
 	
 	private Integer duration; // In minutes
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "activity")
 	private List<Ticket> tickets;
+	
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "activity")
+//	private List<Ticket> soldTickets;
 }
