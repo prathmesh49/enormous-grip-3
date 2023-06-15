@@ -3,6 +3,8 @@ package com.amusement.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import com.amusement.exception.ActivityException;
 import com.amusement.exception.TicketException;
@@ -11,7 +13,7 @@ import com.amusement.model.Ticket;
 import com.amusement.repository.ActivityRepo;
 import com.amusement.repository.TicketRepo;
 
-
+@Service
 public class TicketServiceImpl implements TicketService{
 
 	@Autowired
@@ -60,5 +62,14 @@ public class TicketServiceImpl implements TicketService{
 		}
 		
 	}
+
+	@Override
+	public Ticket Test(Ticket ticket) throws ActivityException {
+		// TODO Auto-generated method stub
+		ticketRpo.save(ticket);
+//		activityRpo.save(activity);
+		return ticket;
+	}
+	
 
 }
