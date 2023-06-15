@@ -48,16 +48,7 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
 	}
 
-	@ExceptionHandler(ActivityException.class)
-	public ResponseEntity<ErrorDetails> activityExceptionHandler(ActivityException ex, WebRequest w) {
 
-		ErrorDetails err = new ErrorDetails();
-		err.setTimestamp(LocalDateTime.now());
-		err.setMessage(ex.getMessage());
-		err.setDetails(w.getDescription(false));
-
-		return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
-	}
 
 	// ====================== Compulsory Exceptions to be handled
 	// ===================//

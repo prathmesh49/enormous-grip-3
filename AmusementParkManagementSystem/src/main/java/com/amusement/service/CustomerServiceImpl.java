@@ -16,7 +16,7 @@ import com.amusement.model.Ticket;
 import com.amusement.repository.CustomerRepository;
 
 @Service
-public class CustomerServiceImplementation implements CustomerService{
+public class CustomerServiceImpl implements CustomerService{
 	
 	@Autowired
 	private CustomerRepository customerRepository;
@@ -38,25 +38,36 @@ public class CustomerServiceImplementation implements CustomerService{
 	}
 
 	@Override
-	public Customer updateCustomer(Integer customerId, CustomerDTO newCustomer) throws CustomerException {
+	public CustomerDTO updateCustomer(Integer customerId, CustomerDTO updatedCustomer) throws CustomerException {
 		// TODO Auto-generated method stub
 		Optional<Customer> customer = customerRepository.findById(customerId);
 		
 		if(customer.isEmpty()) throw new CustomerException("Customer not found with customerId: "+customerId);
+		if(customer.isPresent() && customer.get().getIsDeleted() == true) throw new CustomerException("Customer is deleted");
 		
-		customer.get().setAddress(newCustomer.getAddress());
-		customer.get().setUsername(newCustomer.getUsername());
-		return null;
+		customer.get().setAddress(updatedCustomer.getAddress());
+		customer.get().setUsername(updatedCustomer.getUsername());
+		
+		return CustomerDTO.convertToCustomerDTO(customerRepository.save(customer.get()));
 	}
 
 	@Override
-	public Customer deleteCustomer(Integer customerId) throws CustomerException {
+	public Boolean deleteCustomer(Integer customerId) throws CustomerException {
 		// TODO Auto-generated method stub
-		return null;
+		Optional<Customer> opt = customerRepository.findById(customerId);
+		
+		if(opt.isEmpty()) throw new CustomerException("Customer with customerId: " + customerId + " not found");
+		if(opt.isPresent() && opt.get().getIsDeleted() == true) throw new CustomerException("Customer has already been deleted");
+		
+		opt.get().setIsDeleted(true);
+		Customer customer = customerRepository.save(opt.get());
+		
+		if(customer != null) return true;
+		else return false;
 	}
 
 	@Override
-	public List<Activity> getActivitySuggestions(Integer customerId) throws CustomerException, ActivityException {
+	public List<Activity> getActivitySuggestions(Integer customerId, Integer pageNumber, Integer itemsPerPage) throws CustomerException, ActivityException {
 		// TODO Auto-generated method stub
 		return null;
 	}
