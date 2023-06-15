@@ -23,13 +23,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @MappedSuperclass
 public class AbstractUser {
-	
+
 	private String username;
-	
+
 	private String password;
-	
+
 	private String address;
-	
+
 	@Column(unique = true, nullable = false)
 	@Pattern(regexp = "^[6-9]\\d{9}")
 	private String mobileNumber;
@@ -37,14 +37,13 @@ public class AbstractUser {
 	@Column(unique = true, nullable = false)
 	@Email
 	private String email;
-	
+
 	@CreationTimestamp
 	@Column(updatable = false)
 	private LocalDateTime createdOn;
-	
+
 	@UpdateTimestamp
 	private LocalDateTime lastUpdatedOn;
-	
 	
 	//private Boolean isActive;	// 1 -> active // 0 -> not active
 	
@@ -58,5 +57,5 @@ public class AbstractUser {
 	
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	
+
 }

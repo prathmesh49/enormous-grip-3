@@ -22,4 +22,5 @@ public interface CustomerService {
 //	public List<Activity> getAllAvailableActivities() throws ActivityException;
 	
 	public Ticket bookActivityAndIssueTicket(Integer customerId, Integer activityId);
+
 }
