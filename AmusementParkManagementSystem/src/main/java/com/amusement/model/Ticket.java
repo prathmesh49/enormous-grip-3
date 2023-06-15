@@ -1,11 +1,20 @@
 package com.amusement.model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.FutureOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,4 +38,17 @@ public class Ticket {
 	@ManyToOne
 	@JoinColumn(name = "activityId")
 	private Activity activity;
+	
+	@FutureOrPresent
+	private LocalDate date;
+	
+	@CreationTimestamp
+	private LocalDateTime ticketCreationTime;
+	
+	
+	private Integer personCount;
+
+	@JsonIgnore
+	private boolean isDeleted = false;
+
 }
