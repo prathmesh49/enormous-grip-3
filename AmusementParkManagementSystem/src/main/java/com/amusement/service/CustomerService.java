@@ -12,4 +12,5 @@ public interface CustomerService {
 	public List<Activity> getActivitySuggestions(Integer customerId);
 	
 	
+	
 }
