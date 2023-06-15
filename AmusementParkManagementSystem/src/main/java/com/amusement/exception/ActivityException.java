@@ -5,6 +5,7 @@ public class ActivityException extends RuntimeException {
 	public ActivityException() {
 		
 	}
+
 	public ActivityException(String msg) {
 		super(msg);
 	}

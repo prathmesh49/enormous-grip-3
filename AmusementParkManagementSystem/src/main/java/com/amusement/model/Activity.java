@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Data
 public class Activity {
 	
 	@Id
@@ -29,10 +31,13 @@ public class Activity {
 	
 	private Double price;
 	
-	private Integer capacity;
+	private Integer personCapacity;
 	
 	private Integer duration; // In minutes
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "activity")
 	private List<Ticket> tickets;
+	
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "activity")
+//	private List<Ticket> soldTickets;
 }
