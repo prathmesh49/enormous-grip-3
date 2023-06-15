@@ -13,14 +13,13 @@ public interface CustomerService {
 	
 	public CustomerDTO registerCustomer(CustomerDTO customerDTO) throws CustomerException;
 	
-	public Customer updateCustomer(Integer customerId, CustomerDTO newCustomer) throws CustomerException;
+	public CustomerDTO updateCustomer(Integer customerId, CustomerDTO updatedCustomer) throws CustomerException;
 	
-	public Customer deleteCustomer(Integer customerId) throws CustomerException;
+	public Boolean deleteCustomer(Integer customerId) throws CustomerException;
 	
-	public List<Activity> getActivitySuggestions(Integer customerId) throws CustomerException, ActivityException;
-	
-//	public List<Activity> getAllAvailableActivities() throws ActivityException;
+	public List<Activity> getActivitySuggestions(Integer customerId, Integer pageNumber, Integer itemsPerPage) throws CustomerException, ActivityException;
 	
 	public Ticket bookActivityAndIssueTicket(Integer customerId, Integer activityId);
 
+	
 }

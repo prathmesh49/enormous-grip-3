@@ -1,5 +1,9 @@
 package com.amusement.DTO;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.amusement.model.Customer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -34,6 +38,12 @@ public class CustomerDTO {
 	@Email(message = "{invalid.email}")
 	private String email;
 	
+	@JsonProperty(access = Access.READ_ONLY)
+	private LocalDateTime createdOn;
+
+	@JsonProperty(access = Access.READ_ONLY)
+	private LocalDateTime lastUpdatedOn;
+	
 	
 	public static Customer convertToCustomer(CustomerDTO customerDTO) {
 		Customer customer = new Customer();
@@ -55,6 +65,8 @@ public class CustomerDTO {
 		customerDTO.setMobileNumber(customer.getMobileNumber());
 		customerDTO.setUsername(customer.getUsername());
 		customerDTO.setCustomerId(customer.getCustomerId());
+		customerDTO.setCreatedOn(customer.getCreatedOn());
+		customerDTO.setLastUpdatedOn(customer.getLastUpdatedOn());
 		
 		return customerDTO;
 	}
