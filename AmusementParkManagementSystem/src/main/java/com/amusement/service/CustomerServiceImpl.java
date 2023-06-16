@@ -1,5 +1,6 @@
 package com.amusement.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,13 +29,13 @@ public class CustomerServiceImpl implements CustomerService{
 		Optional<Customer> existingCustomer = customerRepository.findByEmail(customerDTO.getEmail());
 		if(existingCustomer.isPresent()) throw new CustomerException("Email is already in use");
 		
-		Customer customer = customerDTO.convertToCustomer(customerDTO);
+		Customer customer = CustomerDTO.convertToCustomer(customerDTO);
 		customer.setRole(Role.USER);
 		customer.setIsDeleted(false);
 		
 		Customer saved = customerRepository.save(customer);
 		
-		return customerDTO.convertToCustomerDTO(saved);
+		return CustomerDTO.convertToCustomerDTO(saved);
 	}
 
 	@Override
@@ -60,6 +61,7 @@ public class CustomerServiceImpl implements CustomerService{
 		if(opt.isPresent() && opt.get().getIsDeleted() == true) throw new CustomerException("Customer has already been deleted");
 		
 		opt.get().setIsDeleted(true);
+		opt.get().setDeletionTime(LocalDateTime.now().plusMinutes(30));
 		Customer customer = customerRepository.save(opt.get());
 		
 		if(customer != null) return true;
@@ -76,6 +78,12 @@ public class CustomerServiceImpl implements CustomerService{
 	public Ticket bookActivityAndIssueTicket(Integer customerId, Integer activityId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void deleteIfDeletionTimePassed() {
+		// TODO Auto-generated method stub
+		customerRepository.deleteIfDeletionTimePassed();
 	}
 
 	

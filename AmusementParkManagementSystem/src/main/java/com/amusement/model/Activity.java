@@ -1,6 +1,7 @@
 package com.amusement.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -54,6 +55,6 @@ public class Activity {
 //	private LocalTime closesAt;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "activity")
-	private List<Ticket> tickets;
+	private List<Ticket> tickets = new ArrayList<>();
 	
 }
