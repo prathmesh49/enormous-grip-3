@@ -7,10 +7,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.amusement.model.Activity;
 
-public interface ActivityRepository extends JpaRepository<Activity, Integer>{
+public interface ActivityRepository extends JpaRepository<Activity, Integer>, PagingAndSortingRepository<Activity, Integer>{
 	
 	public Optional<Activity> findByActivityName(String activityName);
 	

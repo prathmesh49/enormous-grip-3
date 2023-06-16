@@ -21,5 +21,6 @@ public interface CustomerService {
 	
 	public Ticket bookActivityAndIssueTicket(Integer customerId, Integer activityId);
 
+	public void deleteIfDeletionTimePassed();
 	
 }

@@ -13,6 +13,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 
@@ -58,6 +59,10 @@ public class AbstractUser {
 	 * will send an otp to email with which user can validate himself
 	 */
 	//private Boolean isValidated; // 1 -> validated // 0 -> not validated
+	
+	@Future
+	@Column(nullable = true)
+	private LocalDateTime deletionTime;
 	
 	@Enumerated(EnumType.STRING)
 	private Role role;

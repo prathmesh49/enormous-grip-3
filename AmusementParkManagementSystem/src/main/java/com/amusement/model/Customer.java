@@ -1,5 +1,6 @@
 package com.amusement.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -26,5 +27,5 @@ public class Customer extends AbstractUser{
 	private Integer customerId;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "customer")
-	private List<Ticket> tickets;
+	private List<Ticket> tickets = new ArrayList<>();
 }

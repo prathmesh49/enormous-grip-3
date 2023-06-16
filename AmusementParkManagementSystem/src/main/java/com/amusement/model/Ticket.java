@@ -4,16 +4,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.FutureOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,16 +39,27 @@ public class Ticket {
 	@JoinColumn(name = "activityId")
 	private Activity activity;
 	
-	@FutureOrPresent
-	private LocalDate date;
+	/**
+	 * Date for which customer has booked the ticket
+	 */
+	private LocalDate visitDate;
+	
+	@DecimalMin("0")
+	private Double price;
 	
 	@CreationTimestamp
-	private LocalDateTime ticketCreationTime;
+	@Column(updatable = false)
+	private LocalDateTime createdOn;
+
+	@UpdateTimestamp
+	private LocalDateTime lastUpdatedOn;
 	
+	/**
+	 * If the visitDate has passed then it will be marked as true
+	 */
+	@Column(nullable = false)
+	private Boolean isExpired;
 	
 	private Integer personCount;
-
-	@JsonIgnore
-	private boolean isDeleted = false;
 
 }
