@@ -5,6 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +25,12 @@ public class CustomerController {
 	
 	@Autowired
 	private CustomerService customerService;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@PostMapping("/")
 	public ResponseEntity<CustomerDTO> registerCustomerHandler(@Valid @RequestBody CustomerDTO customerDTO) throws CustomerException{
-		
+		customerDTO.setPassword(passwordEncoder.encode(customerDTO.getPassword()));
 		customerDTO.setCustomerId(null);
 		CustomerDTO customer = customerService.registerCustomer(customerDTO);
 		
