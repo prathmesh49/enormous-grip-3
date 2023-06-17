@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
 	
 	
 	@ExceptionHandler(ActivityException.class)
-	public ResponseEntity<ErrorDetails> activityExceptionHandler(ActivityException ex, WebRequest w){
+	public ResponseEntity<ErrorDetails> activityExceptionHandler1(ActivityException ex, WebRequest w){
 		
 		ErrorDetails err = new ErrorDetails();
 		err.setTimestamp(LocalDateTime.now());

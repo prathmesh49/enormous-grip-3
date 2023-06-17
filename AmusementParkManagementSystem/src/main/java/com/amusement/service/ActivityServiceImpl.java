@@ -44,7 +44,7 @@ public class ActivityServiceImpl implements ActivityService {
 		return ActivityDTO.convertToActivityDTO(activityRepo.save(opt.get()));
 	}
 
-	@Override
+	
 	public ActivityDTO updateActivity(Integer activityId, ActivityDTO updatedActivityDTO) {
 		// TODO Auto-generated method stub
 		Optional<Activity> opt = activityRepo.findById(activityId);
