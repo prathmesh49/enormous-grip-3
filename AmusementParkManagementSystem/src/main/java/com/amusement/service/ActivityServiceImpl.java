@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.amusement.model.Activity;
-import com.amusement.model.Customer;
 import com.amusement.repository.ActivityRepository;
-import com.amusement.repository.CustomerRepository;
 
 @Service
 public class ActivityServiceImpl implements ActivityService {
@@ -31,7 +29,7 @@ public class ActivityServiceImpl implements ActivityService {
 
 			activity.setActivityName(updatedActivity.getActivityName());
 			activity.setPrice(updatedActivity.getPrice());
-			activity.setCapacity(updatedActivity.getCapacity());
+			activity.setPersonCapacity(updatedActivity.getPersonCapacity());
 			activity.setDuration(updatedActivity.getDuration());
 
 			return activityRepository.save(activity);
