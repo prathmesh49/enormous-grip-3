@@ -1,5 +1,6 @@
 package com.amusement.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ import com.amusement.model.Ticket;
 import com.amusement.repository.CustomerRepository;
 
 @Service
-public class CustomerServiceImplementation implements CustomerService{
+public class CustomerServiceImpl implements CustomerService{
 	
 	@Autowired
 	private CustomerRepository customerRepository;
@@ -28,35 +29,47 @@ public class CustomerServiceImplementation implements CustomerService{
 		Optional<Customer> existingCustomer = customerRepository.findByEmail(customerDTO.getEmail());
 		if(existingCustomer.isPresent()) throw new CustomerException("Email is already in use");
 		
-		Customer customer = customerDTO.convertToCustomer(customerDTO);
+		Customer customer = CustomerDTO.convertToCustomer(customerDTO);
 		customer.setRole(Role.USER);
 		customer.setIsDeleted(false);
 		
 		Customer saved = customerRepository.save(customer);
 		
-		return customerDTO.convertToCustomerDTO(saved);
+		return CustomerDTO.convertToCustomerDTO(saved);
 	}
 
 	@Override
-	public Customer updateCustomer(Integer customerId, CustomerDTO newCustomer) throws CustomerException {
+	public CustomerDTO updateCustomer(Integer customerId, CustomerDTO updatedCustomer) throws CustomerException {
 		// TODO Auto-generated method stub
 		Optional<Customer> customer = customerRepository.findById(customerId);
 		
 		if(customer.isEmpty()) throw new CustomerException("Customer not found with customerId: "+customerId);
+		if(customer.isPresent() && customer.get().getIsDeleted() == true) throw new CustomerException("Customer is deleted");
 		
-		customer.get().setAddress(newCustomer.getAddress());
-		customer.get().setUsername(newCustomer.getUsername());
-		return null;
+		customer.get().setAddress(updatedCustomer.getAddress());
+		customer.get().setUsername(updatedCustomer.getUsername());
+		
+		return CustomerDTO.convertToCustomerDTO(customerRepository.save(customer.get()));
 	}
 
 	@Override
-	public Customer deleteCustomer(Integer customerId) throws CustomerException {
+	public Boolean deleteCustomer(Integer customerId) throws CustomerException {
 		// TODO Auto-generated method stub
-		return null;
+		Optional<Customer> opt = customerRepository.findById(customerId);
+		
+		if(opt.isEmpty()) throw new CustomerException("Customer with customerId: " + customerId + " not found");
+		if(opt.isPresent() && opt.get().getIsDeleted() == true) throw new CustomerException("Customer has already been deleted");
+		
+		opt.get().setIsDeleted(true);
+		opt.get().setDeletionTime(LocalDateTime.now().plusMinutes(30));
+		Customer customer = customerRepository.save(opt.get());
+		
+		if(customer != null) return true;
+		else return false;
 	}
 
 	@Override
-	public List<Activity> getActivitySuggestions(Integer customerId) throws CustomerException, ActivityException {
+	public List<Activity> getActivitySuggestions(Integer customerId, Integer pageNumber, Integer itemsPerPage) throws CustomerException, ActivityException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -65,6 +78,12 @@ public class CustomerServiceImplementation implements CustomerService{
 	public Ticket bookActivityAndIssueTicket(Integer customerId, Integer activityId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void deleteIfDeletionTimePassed() {
+		// TODO Auto-generated method stub
+		customerRepository.deleteIfDeletionTimePassed();
 	}
 
 	

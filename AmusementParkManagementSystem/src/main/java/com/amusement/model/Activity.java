@@ -1,8 +1,14 @@
 package com.amusement.model;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -27,17 +33,28 @@ public class Activity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer activityId;
 	
+	@Column(unique = true, nullable = false)
 	private String activityName;
 	
 	private Double price;
 	
 	private Integer personCapacity;
 	
-	private Integer duration; // In minutes
+	@CreationTimestamp
+	@Column(updatable = false)
+	private LocalDateTime createdOn;
+
+	@UpdateTimestamp
+	private LocalDateTime lastUpdatedOn;
+	
+	@Column(nullable = false)
+	private Boolean isDeleted;	// 1 -> deleted // 0 -> not deleted
+	
+//	private LocalTime opensAt;
+//	
+//	private LocalTime closesAt;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "activity")
-	private List<Ticket> tickets;
+	private List<Ticket> tickets = new ArrayList<>();
 	
-//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "activity")
-//	private List<Ticket> soldTickets;
 }

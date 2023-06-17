@@ -2,15 +2,23 @@ package com.amusement.service;
 
 import java.util.List;
 
+import com.amusement.DTO.TicketDTO;
 import com.amusement.exception.ActivityException;
+import com.amusement.exception.CustomerException;
 import com.amusement.exception.TicketException;
-import com.amusement.model.Ticket;
 
 public interface TicketService {
 
-	public Ticket createTicket(Ticket ticket, Integer activity_id) throws ActivityException;
+	public TicketDTO createTicket(TicketDTO ticketDTO, Integer activity_id, Integer customerId) throws ActivityException, CustomerException, TicketException;
+
+	public TicketDTO updateTicket(Integer customerId, Integer ticketId, TicketDTO ticketDTO) throws CustomerException, TicketException;
 	
-	public Ticket deleteTicket(Integer ticket_id) throws TicketException ;
+	public TicketDTO getTicketById(Integer customerId, Integer ticketId) throws CustomerException, TicketException;
 	
-	public List<Ticket> viewAllTickets() throws TicketException;
+	public void deleteTicket(Integer customerId, Integer ticketId) throws CustomerException, TicketException;
+	
+	public List<TicketDTO> viewAllTickets(Integer pageNumber, Integer itemsPerPage) throws TicketException;
+	
+	public List<TicketDTO> getTicketBookingHistory(Integer customerId, Integer pageNumber, Integer itemsPerPage) throws TicketException, CustomerException;
+
 }

@@ -6,13 +6,17 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +24,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+
 @AllArgsConstructor
 @MappedSuperclass
 public class AbstractUser {
@@ -54,6 +59,10 @@ public class AbstractUser {
 	 * will send an otp to email with which user can validate himself
 	 */
 	//private Boolean isValidated; // 1 -> validated // 0 -> not validated
+	
+	@Future
+	@Column(nullable = true)
+	private LocalDateTime deletionTime;
 	
 	@Enumerated(EnumType.STRING)
 	private Role role;
