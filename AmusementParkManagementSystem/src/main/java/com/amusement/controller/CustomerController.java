@@ -3,6 +3,7 @@ package com.amusement.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,13 +25,26 @@ import jakarta.validation.Valid;
 @RequestMapping("/customers")
 public class CustomerController {
 	
-	@Autowired
 	private CustomerService customerService;
-	
-	@PostMapping("/")
+
+	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	public void setCustomerService(CustomerService customerService) {
+		this.customerService = customerService;
+	}
+
+	@Autowired
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
+
+	@PostMapping({"/", ""})
 	public ResponseEntity<CustomerDTO> registerCustomerHandler(
 			@Valid @RequestBody CustomerDTO customerDTO) throws CustomerException{
 
+		customerDTO.setPassword(passwordEncoder.encode(customerDTO.getPassword()));
+		customerDTO.setCustomerId(null);
 		CustomerDTO customer = customerService.registerCustomer(customerDTO);
 		
 		return new ResponseEntity<>(customer, HttpStatus.CREATED);
@@ -43,7 +57,7 @@ public class CustomerController {
 		return new ResponseEntity<>(customerService.updateCustomer(customerId, customerDTO), HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/{customerId}")
+	@DeleteMapping({"/{customerId}", "/{customerId}/"})
 	public ResponseEntity<String> deleteCustomerHandler(@PathVariable Integer customerId) throws CustomerException{
 		Boolean deleteStatus = customerService.deleteCustomer(customerId);
 		

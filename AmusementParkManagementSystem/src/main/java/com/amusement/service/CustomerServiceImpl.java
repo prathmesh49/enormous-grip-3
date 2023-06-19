@@ -85,5 +85,13 @@ public class CustomerServiceImpl implements CustomerService{
 		return ticketService.createTicket(customerId, activityId, ticketDTO);
 	}
 
-	
+	@Override
+	public CustomerDTO getCustomerByEmail(String email) throws CustomerException {
+
+		Optional<Customer> customer = customerRepository.findByEmail(email);
+
+		if(customer.isEmpty()) throw new CustomerException("Customer not found with email: " + email);
+
+		return CustomerDTO.convertToCustomerDTO(customer.get());
+	}
 }

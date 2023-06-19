@@ -65,7 +65,8 @@ public class CustomerDTO {
 		customerDTO.setCustomerId(customer.getCustomerId());
 		customerDTO.setCreatedOn(customer.getCreatedOn());
 		customerDTO.setLastUpdatedOn(customer.getLastUpdatedOn());
-		
+		customerDTO.setPassword(customer.getPassword());
+
 		return customerDTO;
 	}
 }
