@@ -28,14 +28,14 @@ public class TicketController {
 	@Autowired
 	TicketService ticketService;
 	
-	@PostMapping("/tickets/{activityId}/{customerId}")
+	@PostMapping("/tickets/{customerId}/{activityId}")
 	public ResponseEntity<TicketDTO> createTicketHandler(
-			@PathVariable Integer activityId,
 			@PathVariable Integer customerId,
+			@PathVariable Integer activityId,
 			@Valid @RequestBody TicketDTO ticketDTO
 			) throws ActivityException, CustomerException {
 		
-		TicketDTO ticket = ticketService.createTicket(ticketDTO, activityId, customerId);
+		TicketDTO ticket = ticketService.createTicket(customerId, activityId, ticketDTO);
 		
 		return new ResponseEntity<>(ticket, HttpStatus.CREATED);
 	}
@@ -60,19 +60,30 @@ public class TicketController {
 	}
 	
 	@DeleteMapping("/tickets/{customerId}/{ticketId}")
-	public ResponseEntity<TicketDTO> deleteTicketHandler(
+	public ResponseEntity<String> deleteTicketHandler(
 			@PathVariable Integer customerId, @PathVariable Integer ticketId) 
 					throws TicketException, CustomerException{
 		
-		ticketService.deleteTicket(customerId, ticketId);
+		Boolean deleted = ticketService.deleteTicket(customerId, ticketId);
+		HttpStatus status;
+		String message;
 		
-		return new ResponseEntity<>(HttpStatus.OK);
+		System.out.println(deleted);
+		if(deleted) {
+			status = HttpStatus.OK;
+			message = "Ticket deleted successfully";
+		}else {
+			status = HttpStatus.BAD_REQUEST;
+			message = "Something went wrong";
+		}
+		
+		return new ResponseEntity<>(message, status);
 	}
 	
 	@GetMapping("/tickets/{customerId}")
 	public ResponseEntity<List<TicketDTO>> getTicketBookingHistoryHandler(
 			@PathVariable Integer customerId,
-			@RequestParam("page-number") Integer pageNumber,
+			@RequestParam("pageNumber") Integer pageNumber,
 			@RequestParam("recordsPerPage") Integer itemsPerPage) 
 					throws TicketException, CustomerException{
 		

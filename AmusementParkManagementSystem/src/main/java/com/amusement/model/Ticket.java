@@ -6,8 +6,10 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,11 +33,11 @@ public class Ticket {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer ticketId;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "customerId")
 	private Customer customer;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "activityId")
 	private Activity activity;
 	
