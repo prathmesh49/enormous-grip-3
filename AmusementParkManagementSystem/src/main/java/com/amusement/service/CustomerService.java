@@ -10,7 +10,9 @@ import com.amusement.exception.CustomerException;
 import com.amusement.exception.TicketException;
 
 public interface CustomerService {
-	
+
+	public CustomerDTO getCustomerByEmail(String email) throws CustomerException;
+
 	public CustomerDTO registerCustomer(CustomerDTO customerDTO) throws CustomerException;
 	
 	public CustomerDTO updateCustomer(Integer customerId, CustomerDTO updatedCustomer) throws CustomerException;
