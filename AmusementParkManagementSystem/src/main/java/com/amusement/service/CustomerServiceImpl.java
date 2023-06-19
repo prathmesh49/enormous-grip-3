@@ -7,13 +7,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.amusement.DTO.ActivityDTO;
 import com.amusement.DTO.CustomerDTO;
+import com.amusement.DTO.TicketDTO;
 import com.amusement.exception.ActivityException;
 import com.amusement.exception.CustomerException;
-import com.amusement.model.Activity;
+import com.amusement.exception.TicketException;
 import com.amusement.model.Customer;
 import com.amusement.model.Role;
-import com.amusement.model.Ticket;
 import com.amusement.repository.CustomerRepository;
 
 @Service
@@ -21,6 +22,9 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	@Autowired
 	private CustomerRepository customerRepository;
+	
+	@Autowired
+	private TicketService ticketService;
 
 	@Override
 	public CustomerDTO registerCustomer(CustomerDTO customerDTO) throws CustomerException {
@@ -69,22 +73,25 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public List<Activity> getActivitySuggestions(Integer customerId, Integer pageNumber, Integer itemsPerPage) throws CustomerException, ActivityException {
+	public List<ActivityDTO> getActivitySuggestions(Integer customerId, Integer pageNumber, Integer itemsPerPage) throws CustomerException, ActivityException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Ticket bookActivityAndIssueTicket(Integer customerId, Integer activityId) {
+	public TicketDTO bookActivityAndIssueTicket(Integer customerId, Integer activityId, TicketDTO ticketDTO) 
+			throws ActivityException, TicketException, CustomerException {
 		// TODO Auto-generated method stub
-		return null;
+		return ticketService.createTicket(customerId, activityId, ticketDTO);
 	}
 
 	@Override
-	public void deleteIfDeletionTimePassed() {
-		// TODO Auto-generated method stub
-		customerRepository.deleteIfDeletionTimePassed();
-	}
+	public CustomerDTO getCustomerByEmail(String email) throws CustomerException {
 
-	
+		Optional<Customer> customer = customerRepository.findByEmail(email);
+
+		if(customer.isEmpty()) throw new CustomerException("Customer not found with email: " + email);
+
+		return CustomerDTO.convertToCustomerDTO(customer.get());
+	}
 }

@@ -9,7 +9,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.amusement</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>AmusementParkManagementSystem</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>AmusementPark</name>
 	<description>Amusement park management system</description>
@@ -81,6 +81,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
+<<<<<<< HEAD
 		<!--<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -92,6 +93,13 @@
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+=======
+<!--		<dependency>-->
+<!--			<groupId>com.h2database</groupId>-->
+<!--			<artifactId>h2</artifactId>-->
+<!--			<scope>runtime</scope>-->
+<!--		</dependency>-->
+>>>>>>> 1751f81c0b8c1501de2405c071cb8f464002eccc
 	</dependencies>
 	<build>
 		<plugins>
