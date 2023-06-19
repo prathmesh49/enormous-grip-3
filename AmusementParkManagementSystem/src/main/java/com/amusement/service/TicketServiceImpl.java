@@ -33,7 +33,7 @@ public class TicketServiceImpl implements TicketService{
 	private CustomerRepository customerRepo;
 
 	@Override
-	public TicketDTO createTicket(TicketDTO ticketDTO, Integer activityId, Integer customerId)
+	public TicketDTO createTicket(Integer customerId, Integer activityId, TicketDTO ticketDTO)
 			throws ActivityException, CustomerException, TicketException {
 		// TODO Auto-generated method stub
 		Optional<Activity> activity = activityRepo.findById(activityId);
@@ -133,7 +133,7 @@ public class TicketServiceImpl implements TicketService{
 	}
 
 	@Override
-	public void deleteTicket(Integer customerId, Integer ticketId) throws CustomerException, TicketException {
+	public Boolean deleteTicket(Integer customerId, Integer ticketId) throws CustomerException, TicketException {
 		// TODO Auto-generated method stub
 		Optional<Customer> customer = customerRepo.findById(customerId);
 		Optional<Ticket> ticketOpt = ticketRepo.findById(ticketId);
@@ -142,8 +142,14 @@ public class TicketServiceImpl implements TicketService{
 		if(ticketOpt.isEmpty()) throw new CustomerException("Ticket not found with ticketId: "+ ticketId);
 		
 		if(ticketOpt.get().getCustomer().getCustomerId() != customerId) throw new CustomerException("Not your ticket");
+
+		ticketRepo.deleteTicket(ticketId);
 		
-		ticketRepo.delete(ticketOpt.get());
+		/**
+		 * it will not visible immediately in the database for that reason these falsy values are passed
+		 */
+		if(ticketRepo.findById(ticketId).isEmpty()) return false;
+		else return true;
 	}
 
 	@Override
