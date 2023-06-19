@@ -34,7 +34,6 @@ public class AppConfig {
                     auth
                             .requestMatchers(HttpMethod.POST, "/customers/", "/customers").permitAll()
                             .requestMatchers(HttpMethod.DELETE, "/customers/{customerId}", "/customers/{customerId}/").hasRole("USER")
-                            .requestMatchers(HttpMethod.GET, "/hello").hasRole("USER")
                             .anyRequest().authenticated();
                 })
                 .addFilterBefore(new JwtTokenValidationFilter(), BasicAuthenticationFilter.class)
